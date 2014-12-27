@@ -1,6 +1,4 @@
-package jp.kobayo.save100.utils;
-
-import java.util.List;
+package jp.kobayo.save100.common;
 
 /**
  * Created by Yosuke Kobayashi on 2014/12/25.
