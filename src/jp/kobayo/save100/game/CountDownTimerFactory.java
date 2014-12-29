@@ -10,11 +10,12 @@ import jp.kobayo.save100.R;
  */
 public class CountDownTimerFactory {
 
-	public static CountDownTimer create(Activity activity) {
+	public static CountDownTimer create(Activity activity,int limitSecond) {
 
 		final TextView counter = (TextView)activity.findViewById(R.id.counter);
 
-		return new CountDownTimer(5000,1000){
+		return new CountDownTimer(++limitSecond * 1000,1000){
+
 
 			// カウントダウン処理
 			public void onTick(long millisUntilFinished){

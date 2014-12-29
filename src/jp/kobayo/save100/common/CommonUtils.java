@@ -1,6 +1,8 @@
 package jp.kobayo.save100.common;
 
 /**
+ * 汎用ユーティリティです。
+ *
  * Created by Yosuke Kobayashi on 2014/12/25.
  */
 public class CommonUtils {

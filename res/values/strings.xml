@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">save100</string>
+    <string name="app_name">SAVE100</string>
+    <string name="score">SCORE: </string>
+    <string name="counter">LIMIT-TIME: </string>
 </resources>

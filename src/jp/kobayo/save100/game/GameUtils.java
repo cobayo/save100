@@ -13,11 +13,20 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Gameの処理に必要なユーティリティーです。
+ *
  * Created by kobayo on 2014/12/27.
  */
 public class GameUtils {
 
 
+	/**
+	 * 現在の上段、下段のそれぞれの列の合計値を算出します。
+	 *
+	 * @param mustSum : 合計値 通常は100
+	 * @param activity : GameActivity
+	 * @return true : 正解
+	 */
 	public static boolean calc(int mustSum, Activity activity) {
 
 		TextView up1 = (TextView)activity.findViewById(R.id.up_num1);

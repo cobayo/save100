@@ -4,17 +4,18 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
+import jp.kobayo.save100.common.CommonUtils;
 
 
 public class GameActivity extends Activity implements OnClickListener {
 
 	// 一列にならぶ加算する数字の数。
-	private static int numbersOneLine = 3;
+	private static final int numbersOneLine = 3;
 
 	// 上段で選択中の数字
 	private TextView currentUpView;
@@ -22,33 +23,82 @@ public class GameActivity extends Activity implements OnClickListener {
 	// 下段で選択中の数字
 	private TextView currentDownView;
 
+	// カウンタView
+	private TextView counter;
+
+	// スコアView
+	private TextView score;
+
+	// 正解時演出用画像
+	private ImageView success;
+
 	// CountDownTimer
 	private CountDownTimer cdt;
 
+	// 正解となる合計値
 	private int mustSum = 100;
 
-	/**
-	 * Called when the activity is first created.
-	 */
-	@Override
+	// タイマー
+	private int limitSecond = 10;
 
+	// スコア
+	private long currentScore = 0L;
+
+	// lock
+	private boolean lock = false;
 
 	/**
 	 * onCreate
+	 * Called when the activity is first created.
+	 * @param savedInstanceState : Bundle
 	 */
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game);
 
-		GameUtils.setLines(numbersOneLine, mustSum ,this);
+		// 初期化し、ゲームスタート
+		initGame();
+	}
 
-		Log.d("onCreate", "Start");
 
-		this.cdt = CountDownTimerFactory.create(this);
+	/**
+	 * ゲームを最初から開始します。
+	 */
+	private void initGame() {
+
+		// 正解時画像をセットし、初期では非表示
+		success = (ImageView)findViewById(R.id.success);
+		success.setOnClickListener(this);
+		success.setVisibility(View.INVISIBLE);
+
+		// 色リセット
+		GameUtils.resetColor(Position.up, this);
+		GameUtils.resetColor(Position.down, this);
+
+		// 初期化
+		currentUpView = null;
+		currentDownView = null;
+		counter = (TextView)findViewById(R.id.counter);
+		score = (TextView)findViewById(R.id.score);
+
+		// カウンター初期値導入
+		counter.setText(String.valueOf(limitSecond));
+
+		// スコア初期化
+		currentScore = 0L;
+		score.setText(String.valueOf(0));
+
+		// 問題作成
+		GameUtils.setLines(numbersOneLine, mustSum, this);
+
+		// タイマー生成
+		this.cdt = CountDownTimerFactory.create(this, limitSecond);
 		this.cdt.start();
 
 	}
+
 
 	/**
 	 * onClick
@@ -56,16 +106,23 @@ public class GameActivity extends Activity implements OnClickListener {
 	 */
 	public void onClick(View view) {
 
+
+
 		switch(view.getId()) {
 
 			// 上段のView
 			case R.id.up_num1:
 			case R.id.up_num2:
 			case R.id.up_num3:
-				// 選択した文字を既に選択している文字を元に正解かどうか判断。正解ならタイマーリスタート
+				// 正解時演出&処理中
+				if (lock) {
+					return;
+				}
+				// 選択した文字を既に選択している文字を元に正解かどうか判断。正解ならタイマー止めて正解時演出。
 				// 一度でも不正解を出したら終わり。
 				if (Result.save.equals(check((TextView) view, Position.up))) {
 					success();
+					return;
 				}
 				break;
 
@@ -73,9 +130,21 @@ public class GameActivity extends Activity implements OnClickListener {
 			case R.id.down_num1:
 			case R.id.down_num2:
 			case R.id.down_num3:
+
+				// 正解時演出&処理中
+				if (lock) {
+					return;
+				}
+
 				if (Result.save.equals(check((TextView) view, Position.down))) {
 					success();
+					return;
 				}
+				break;
+
+			case R.id.success:
+				// 次の問題へ。
+				next();
 				break;
 
 			default:
@@ -84,6 +153,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 
 	}
+
 
 	/**
 	 * 選択された数字をもとに、ゲームの状態をどうするか判断します。
@@ -105,9 +175,11 @@ public class GameActivity extends Activity implements OnClickListener {
 		GameUtils.resetColor(position, this);
 		selectedView.setTextColor(Color.RED);
 
+
 		// 選択した数字を現在選択中の変数として確保
 		if (Position.up.equals(position)) {
 
+			// 選択中のView確保
 			this.currentUpView = selectedView;
 			// 一つの数字しか選択していなければ処理続行
 			if (this.currentDownView == null) {
@@ -123,13 +195,15 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		}
 
-		// 両方が選択された場合、数字を交換
+		// 選択した数字を取得
 		CharSequence selectedUp   = currentUpView.getText();
 		CharSequence selectedDown = currentDownView.getText();
 
+		// 両方が選択された場合、数字を交換する。
 		currentUpView.setText(selectedDown);
 		currentDownView.setText(selectedUp);
 
+		// 計算し、合計値が正しければ正解となる。
 		return (GameUtils.calc(mustSum, this)) ? Result.save :Result.fail ;
 
 	}
@@ -139,13 +213,44 @@ public class GameActivity extends Activity implements OnClickListener {
 	 */
 	private void success() {
 
-		GameUtils.setLines(numbersOneLine, mustSum, this);
+		// タイマー再スタートまでロックフラグを立てる。
+		lock = true;
+
+		// タイマーストップ
+		this.cdt.cancel();
+
+		// 正解画像を表示
+		success.setVisibility(View.VISIBLE);
+
+		// 選択解除
 		this.currentUpView = null;
 		this.currentDownView = null;
 		GameUtils.resetColor(Position.up, this);
 		GameUtils.resetColor(Position.down, this);
-		this.cdt.cancel();
+
+		// スコア計算
+		int restTime = CommonUtils.parseInt(counter.getText().toString());
+
+		// スコア加算
+		currentScore += ScoreManager.getScore(restTime, mustSum);
+		score.setText(String.valueOf(currentScore));
+
+	}
+
+	private void next() {
+
+		// 正解時画像を非表示にする。
+		success.setVisibility(View.INVISIBLE);
+
+		// 新しい問題を作る。
+		GameUtils.setLines(numbersOneLine, mustSum, this);
+
+		// カウンター再スタート
+		counter.setText(String.valueOf(limitSecond));
 		this.cdt.start();
+
+		// ロック解除
+		lock = false;
 
 	}
 
