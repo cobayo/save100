@@ -1,6 +1,7 @@
 package jp.kobayo.save100.game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.CommonUtils;
+import jp.kobayo.save100.top.TopActivity;
 
 
 public class GameActivity extends Activity implements OnClickListener {
@@ -31,6 +33,9 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	// 正解時演出用画像
 	private ImageView success;
+
+	// 失敗時演出用画像
+	private ImageView fail;
 
 	// CountDownTimer
 	private CountDownTimer cdt;
@@ -56,7 +61,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.game);
+		setContentView(R.layout.game_m);
 
 		// 初期化し、ゲームスタート
 		initGame();
@@ -72,6 +77,13 @@ public class GameActivity extends Activity implements OnClickListener {
 		success = (ImageView)findViewById(R.id.success);
 		success.setOnClickListener(this);
 		success.setVisibility(View.INVISIBLE);
+
+		// 失敗時画像をセット 初期は非表示
+		fail = (ImageView)findViewById(R.id.fail);
+		fail.setOnClickListener(this);
+		fail.setVisibility(View.INVISIBLE);
+
+
 
 		// 色リセット
 		GameUtils.resetColor(Position.up, this);
@@ -97,6 +109,8 @@ public class GameActivity extends Activity implements OnClickListener {
 		this.cdt = CountDownTimerFactory.create(this, limitSecond);
 		this.cdt.start();
 
+		// ロックフラグ初期化
+		lock = false;
 	}
 
 
@@ -106,8 +120,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	 */
 	public void onClick(View view) {
 
-
-
+		Result result = null;
 		switch(view.getId()) {
 
 			// 上段のView
@@ -118,12 +131,9 @@ public class GameActivity extends Activity implements OnClickListener {
 				if (lock) {
 					return;
 				}
-				// 選択した文字を既に選択している文字を元に正解かどうか判断。正解ならタイマー止めて正解時演出。
-				// 一度でも不正解を出したら終わり。
-				if (Result.save.equals(check((TextView) view, Position.up))) {
-					success();
-					return;
-				}
+				// 両段ともに選択したか、正解かどうかを判断。
+				result = check((TextView) view, Position.up);
+
 				break;
 
 			// 下段のView
@@ -136,10 +146,8 @@ public class GameActivity extends Activity implements OnClickListener {
 					return;
 				}
 
-				if (Result.save.equals(check((TextView) view, Position.down))) {
-					success();
-					return;
-				}
+				// 両段ともに選択したか、正解かどうかを判断。
+				result = check((TextView) view, Position.down);
 				break;
 
 			case R.id.success:
@@ -147,8 +155,21 @@ public class GameActivity extends Activity implements OnClickListener {
 				next();
 				break;
 
+			case R.id.fail:
+				// スコア保存処理をしてトップへ戻る
+				backTop();
+				break;
 			default:
 				break;
+		}
+
+
+		if (Result.save.equals(result)) {
+			// 正解ならタイマー止めて正解時演出。
+			success();
+		} else if (Result.fail.equals(result)) {
+			// 一度でも不正解を出したら終わり。
+			fail();
 		}
 
 
@@ -237,6 +258,9 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	}
 
+	/**
+	 * 次の問題へ進む
+	 */
 	private void next() {
 
 		// 正解時画像を非表示にする。
@@ -252,6 +276,25 @@ public class GameActivity extends Activity implements OnClickListener {
 		// ロック解除
 		lock = false;
 
+	}
+
+	/**
+	 * 失敗時処理
+	 */
+	private void fail() {
+		lock = true;
+		fail.setVisibility(View.VISIBLE);
+	}
+
+	// スコアを保存し、Topへ戻ります。
+	private void backTop() {
+
+		// スコアを保存する処理
+		ScoreManager.save(currentScore, this);
+
+		// Topへ戻る
+		Intent intent = new Intent(this, TopActivity.class);
+		startActivity(intent);
 	}
 
 }

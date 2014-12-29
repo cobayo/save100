@@ -87,6 +87,17 @@ public class GameUtils {
 
 	}
 
+	public static void setSum(int mustSum, Activity activity) {
+
+		TextView upSum = (TextView)activity.findViewById(R.id.up_sum);
+		upSum.setText(String.valueOf(mustSum));
+		upSum.setTextColor(Color.RED);
+
+		TextView downSum = (TextView)activity.findViewById(R.id.down_sum);
+		downSum.setText(String.valueOf(mustSum));
+		downSum.setTextColor(Color.RED);
+
+	}
 
 
 
@@ -108,6 +119,9 @@ public class GameUtils {
 		up3.setText(String.valueOf(firstLine[2]));
 		up3.setOnClickListener((View.OnClickListener)activity);
 
+		TextView upSum = (TextView)activity.findViewById(R.id.up_sum);
+		upSum.setText(CommonUtils.concat(String.valueOf(mustSum),"?"));
+		upSum.setTextColor(Color.WHITE);
 
 		int[] secondLine = lines.get(1);
 
@@ -122,6 +136,10 @@ public class GameUtils {
 		TextView down3 = (TextView)activity.findViewById(R.id.down_num3);
 		down3.setText(String.valueOf(secondLine[2]));
 		down3.setOnClickListener((View.OnClickListener)activity);
+
+		TextView downSum = (TextView)activity.findViewById(R.id.down_sum);
+		downSum.setText(CommonUtils.concat(String.valueOf(mustSum),"?"));
+		downSum.setTextColor(Color.WHITE);
 
 	}
 

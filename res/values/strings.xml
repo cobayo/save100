@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAVE100</string>
-    <string name="score">SCORE: </string>
-    <string name="counter">LIMIT-TIME: </string>
+    <string name="score">SCORE :</string>
+    <string name="counter">LIMIT-TIME :</string>
+    <string name="start">GAME START</string>
+    <string name="high_score">HIGH SCORE :</string>
+    <string name="latest_score">LATEST SCORE :</string>
 </resources>

@@ -1,5 +1,8 @@
 package jp.kobayo.save100.common;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 汎用ユーティリティです。
  *
@@ -76,6 +79,17 @@ public class CommonUtils {
 		}
 
 
+	}
+
+	/**
+	 * DB用に日付を文字列で取得
+	 * @param date
+	 * @return
+	 */
+	public static String getDateTimeString(Date date) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(date);
 	}
 
 
