@@ -1,7 +1,16 @@
 package jp.kobayo.save100.common;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.PixelFormat;
+import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * 汎用ユーティリティです。
@@ -82,15 +91,15 @@ public class CommonUtils {
 	}
 
 	/**
-	 * DB用に日付を文字列で取得
+	 * DB用に日本時間の日付を文字列で取得
 	 * @param date
 	 * @return
 	 */
 	public static String getDateTimeString(Date date) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("JST"));
 		return sdf.format(date);
 	}
-
 
 }

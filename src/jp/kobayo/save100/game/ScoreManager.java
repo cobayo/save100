@@ -10,6 +10,8 @@ import jp.kobayo.save100.common.CommonUtils;
 import jp.kobayo.save100.sqlite.MySQLiteOpenHelper;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by kobayo on 2014/12/28.
@@ -20,7 +22,7 @@ public class ScoreManager {
 	private static SQLiteDatabase mydb;
 
 	// ハイスコア取得クエリ
-	private static final String selectHighScore = "select high_score from scores order by high_score desc limit 1;";
+	private static final String selectHighScore = "select high_score from scores;";
 
 	// 最新スコア取得クエリ
 	private static final String selectLatestScore = "select latest_score from scores order by latest_score desc limit 1;";
@@ -47,18 +49,21 @@ public class ScoreManager {
 
 	public static void save(long currentScore, Activity activity) {
 
+		System.out.println(currentScore);
+
 		// 今日の日付文字列 yyyy-MM-dd HH:mm:ss
 		String currentTimeString = CommonUtils.getDateTimeString(new Date());
 		Log.d("today",currentTimeString);
 
 		// スコアを文字列へキャスト
 		String currentScoreString = String.valueOf(currentScore);
+		Log.d("current score",currentScoreString);
+
 
 		MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity.getApplicationContext());
 		mydb = helper.getWritableDatabase();
 		Cursor res = mydb.rawQuery(selectHighScore, new String[0]);
 
-		System.out.println(res);
 
 		// 既存レコードがないとき
 		if (res.getCount() == 0) {
@@ -102,7 +107,7 @@ public class ScoreManager {
 			return String.valueOf(res.getLong(0));
 		}
 
-		return "--";
+		return "-- ";
 
 	}
 
@@ -120,7 +125,7 @@ public class ScoreManager {
 			return String.valueOf(res.getLong(0));
 		}
 
-		return "--";
+		return "-- ";
 
 	}
 

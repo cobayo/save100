@@ -11,9 +11,9 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:gravity="left"
-                  android:layout_marginTop="50sp"
-                  android:layout_marginLeft="30sp"
-                  android:layout_marginBottom="20sp"
+                  android:layout_marginTop="50dp"
+                  android:layout_marginLeft="30dp"
+                  android:layout_marginBottom="20dp"
             >
         <TextView
                 android:layout_width="wrap_content"
@@ -26,9 +26,9 @@
                 android:id="@+id/counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10sp"
+                android:layout_marginRight="10dp"
                 android:textSize="30sp"
-                android:textColor="@color/orange"
+                android:textColor="@color/green"
                 />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,8 +36,8 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:gravity="left"
-                  android:layout_marginLeft="30sp"
-                  android:layout_marginBottom="40sp"
+                  android:layout_marginLeft="30dp"
+                  android:layout_marginBottom="40dp"
             >
 
         <TextView
@@ -52,18 +52,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
-                android:textColor="@color/orange"
+                android:textColor="@color/green"
          />
     </LinearLayout>
-    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <FrameLayout android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+            >
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:paddingTop="15sp"
-                      android:paddingLeft="30sp"
-                      android:paddingRight="30sp"
-                      android:paddingBottom="15sp"
+                      android:paddingTop="15dp"
+                      android:paddingLeft="20dp"
+                      android:paddingRight="20dp"
+                      android:paddingBottom="15dp"
                       android:orientation="vertical"
                       android:background="@drawable/board"
                 >
@@ -71,7 +73,8 @@
                           android:orientation="horizontal"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:paddingBottom="20sp"
+                          android:paddingTop="20dp"
+                          android:paddingBottom="20dp"
                           android:gravity="center_horizontal"
                     >
                 <TextView
@@ -80,16 +83,16 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/up_num2"
@@ -97,16 +100,16 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/up_num3"
@@ -114,25 +117,24 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="="
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/up_sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100?"
                         android:gravity="center"
-                        android:width="80sp"
-                        android:textSize="35sp"
+                        android:width="70dp"
+                        android:textSize="30sp"
                         />
 
             </LinearLayout>
@@ -149,16 +151,16 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/down_num2"
@@ -166,16 +168,16 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/down_num3"
@@ -183,25 +185,24 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="="
                         android:gravity="center"
-                        android:width="40sp"
-                        android:textSize="35sp"
+                        android:width="35dp"
+                        android:textSize="30sp"
                         />
                 <TextView
                         android:id="@+id/down_sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100?"
                         android:gravity="center"
-                        android:width="80sp"
-                        android:textSize="35sp"
+                        android:width="70dp"
+                        android:textSize="30sp"
                         />
 
             </LinearLayout>

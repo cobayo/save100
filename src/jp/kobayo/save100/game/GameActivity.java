@@ -1,41 +1,50 @@
 package jp.kobayo.save100.game;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.CommonUtils;
+import jp.kobayo.save100.common.MenuManager;
+import jp.kobayo.save100.complete.CompleteActivity;
+import jp.kobayo.save100.result.ResultActivity;
 import jp.kobayo.save100.top.TopActivity;
 
 
-public class GameActivity extends Activity implements OnClickListener {
+public class GameActivity extends Activity implements OnClickListener,ActionBar.OnNavigationListener {
 
 	// 一列にならぶ加算する数字の数。
 	private static final int numbersOneLine = 3;
 
 	// 上段で選択中の数字
-	private TextView currentUpView;
+	private TextView currentUpView = null;
 
 	// 下段で選択中の数字
-	private TextView currentDownView;
+	private TextView currentDownView = null;
 
 	// カウンタView
-	private TextView counter;
+	private TextView counter = null;
 
 	// スコアView
-	private TextView score;
+	private TextView score = null;
 
 	// 正解時演出用画像
-	private ImageView success;
+	private ImageView success = null;
 
 	// 失敗時演出用画像
-	private ImageView fail;
+	private ImageView fail = null;
 
 	// CountDownTimer
 	private CountDownTimer cdt;
@@ -52,6 +61,9 @@ public class GameActivity extends Activity implements OnClickListener {
 	// lock
 	private boolean lock = false;
 
+	// 正解数
+	private int clearCnt = 0;
+
 	/**
 	 * onCreate
 	 * Called when the activity is first created.
@@ -65,6 +77,56 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// 初期化し、ゲームスタート
 		initGame();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		MenuManager.createMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+
+			case MenuManager.MENU_TOP:
+				backTop();
+				break;
+			case MenuManager.MENU_END:
+				backToEnd();
+				break;
+			default:
+				break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * Versionの差異を考慮して、どのContextを返すか変える。
+	 * @return Context: this or ThemedContext
+	 */
+	private Context getActionBarThemedContextCompat() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			return getActionBar().getThemedContext();
+		} else {
+			return this;
+		}
+	}
+
+	/**
+	 * Itemを選択した際の処理。
+	 *
+	 * @param itemPosition
+	 * @param itemId
+	 * @return
+	 */
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+
+		Log.d("Navi",String.valueOf(itemPosition));
+		return false;
 	}
 
 
@@ -101,6 +163,9 @@ public class GameActivity extends Activity implements OnClickListener {
 		// スコア初期化
 		currentScore = 0L;
 		score.setText(String.valueOf(0));
+
+		// 回答問題数クリア
+		clearCnt = 0;
 
 		// 問題作成
 		GameUtils.setLines(numbersOneLine, mustSum, this);
@@ -240,6 +305,12 @@ public class GameActivity extends Activity implements OnClickListener {
 		// タイマーストップ
 		this.cdt.cancel();
 
+		// 回答数加算
+		clearCnt++;
+
+		// 合計値表示
+		GameUtils.setSum(mustSum, this);
+
 		// 正解画像を表示
 		success.setVisibility(View.VISIBLE);
 
@@ -255,6 +326,11 @@ public class GameActivity extends Activity implements OnClickListener {
 		// スコア加算
 		currentScore += ScoreManager.getScore(restTime, mustSum);
 		score.setText(String.valueOf(currentScore));
+
+		// 百万点超えたらゲーム完全攻略とし、終了する。
+		if (currentScore >= 1000000) {
+			complete();
+		}
 
 	}
 
@@ -284,6 +360,24 @@ public class GameActivity extends Activity implements OnClickListener {
 	private void fail() {
 		lock = true;
 		fail.setVisibility(View.VISIBLE);
+		backToEnd();
+	}
+
+	private void complete() {
+
+		// スコアを保存する処理
+		ScoreManager.save(currentScore, this);
+
+		// Complete ページ
+		Intent intent = new Intent(this, CompleteActivity.class);
+
+		// 値を受け渡す
+		intent.putExtra( "currentScore", String.valueOf(currentScore));
+		intent.putExtra( "clearCnt", String.valueOf(clearCnt));
+
+		startActivity(intent);
+		finish();
+
 	}
 
 	// スコアを保存し、Topへ戻ります。
@@ -295,6 +389,24 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Topへ戻る
 		Intent intent = new Intent(this, TopActivity.class);
 		startActivity(intent);
+		finish();
+	}
+
+	private void backToEnd() {
+
+		// スコアを保存する処理
+		ScoreManager.save(currentScore, this);
+
+		// Complete ページ
+		Intent intent = new Intent(this, ResultActivity.class);
+
+		// 値を受け渡す
+		intent.putExtra( "currentScore", String.valueOf(currentScore));
+		intent.putExtra( "clearCnt", String.valueOf(clearCnt));
+
+		startActivity(intent);
+		finish();
+
 	}
 
 }

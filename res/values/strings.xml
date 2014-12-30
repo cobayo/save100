@@ -3,7 +3,13 @@
     <string name="app_name">SAVE100</string>
     <string name="score">SCORE :</string>
     <string name="counter">LIMIT-TIME :</string>
-    <string name="start">GAME START</string>
+    <string name="start">START</string>
     <string name="high_score">HIGH SCORE :</string>
     <string name="latest_score">LATEST SCORE :</string>
+    <string name="explain">Create 100, \nBy replacing a number of two lines \nonly at once !</string>
+    <string name="result">** RESULT **</string>
+    <string name="clear_cnt">ANSWERS :</string>
+    <string name="complete">Amazing!! \nYou got over million score!!</string>
+    <string name="top">TOP</string>
+    <string name="end">END GAME</string>
 </resources>

@@ -87,6 +87,11 @@ public class GameUtils {
 
 	}
 
+	/**
+	 * 正解時 =100? となっているところを=100にする。
+	 * @param mustSum
+	 * @param activity
+	 */
 	public static void setSum(int mustSum, Activity activity) {
 
 		TextView upSum = (TextView)activity.findViewById(R.id.up_sum);
