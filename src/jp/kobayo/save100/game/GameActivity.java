@@ -56,7 +56,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 	private int limitSecond = 10;
 
 	// スコア
-	private long currentScore = 0L;
+	private int currentScore = 0;
 
 	// lock
 	private boolean lock = false;
@@ -161,7 +161,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 		counter.setText(String.valueOf(limitSecond));
 
 		// スコア初期化
-		currentScore = 0L;
+		currentScore = 0;
 		score.setText(String.valueOf(0));
 
 		// 回答問題数クリア
@@ -324,7 +324,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 		int restTime = CommonUtils.parseInt(counter.getText().toString());
 
 		// スコア加算
-		currentScore += ScoreManager.getScore(restTime, mustSum);
+		currentScore += ScoreManager.calcScore(restTime, mustSum);
 		score.setText(String.valueOf(currentScore));
 
 		// 百万点超えたらゲーム完全攻略とし、終了する。
@@ -366,7 +366,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 	private void complete() {
 
 		// スコアを保存する処理
-		ScoreManager.save(currentScore, this);
+		ScoreManager.create(this).save(currentScore);
 
 		// Complete ページ
 		Intent intent = new Intent(this, CompleteActivity.class);
@@ -384,7 +384,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 	private void backTop() {
 
 		// スコアを保存する処理
-		ScoreManager.save(currentScore, this);
+		ScoreManager.create(this).save(currentScore);
 
 		// Topへ戻る
 		Intent intent = new Intent(this, TopActivity.class);
@@ -395,7 +395,7 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 	private void backToEnd() {
 
 		// スコアを保存する処理
-		ScoreManager.save(currentScore, this);
+		ScoreManager.create(this).save(currentScore);
 
 		// Complete ページ
 		Intent intent = new Intent(this, ResultActivity.class);

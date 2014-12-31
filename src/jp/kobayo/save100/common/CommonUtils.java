@@ -98,7 +98,6 @@ public class CommonUtils {
 	public static String getDateTimeString(Date date) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("JST"));
 		return sdf.format(date);
 	}
 

@@ -30,14 +30,15 @@ public class TopActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_m);
 
+		ScoreManager sm = ScoreManager.create(this);
 
 		// ハイスコアを表示
 		TextView highScore = (TextView)findViewById(R.id.high_score);
-		highScore.setText(ScoreManager.getHighScore(this));
+		highScore.setText(sm.getHighScore());
 
 		// 最新スコアを表示
 		TextView latestScore = (TextView)findViewById(R.id.latest_score);
-		latestScore.setText(ScoreManager.getLatestScore(this));
+		latestScore.setText(sm.getLatestScore());
 
 		// スタートボタン
 		TextView start = (TextView)findViewById(R.id.start);
