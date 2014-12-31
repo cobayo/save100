@@ -1,16 +1,7 @@
 package jp.kobayo.save100.common;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.PixelFormat;
-import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * 汎用ユーティリティです。
@@ -56,44 +47,9 @@ public class CommonUtils {
 	}
 
 	/**
-	 * List 文字列連結
-	 *
-	 * @param ints : List
-	 * @param sep: 区切り文字
-	 * @return 文字列
-	 */
-	public synchronized static String concatList(int[] ints,String sep) {
-
-		if (ints == null) {
-			return "";
-		}
-
-		try {
-			StringBuilder sb = new StringBuilder();
-			int i = 0;
-			for (int s : ints) {
-
-				sb.append(s);
-
-				if (i != ints.length - 1) {
-					sb.append(sep);
-					i++;
-				}
-			}
-
-			return sb.toString();
-
-		} catch (Exception e) {
-			return "";
-		}
-
-
-	}
-
-	/**
 	 * DB用に日本時間の日付を文字列で取得
-	 * @param date
-	 * @return
+	 * @param date : Date
+	 * @return dateString : String
 	 */
 	public static String getDateTimeString(Date date) {
 

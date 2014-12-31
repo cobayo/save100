@@ -40,6 +40,9 @@ public class TopActivity extends Activity implements View.OnClickListener {
 		TextView latestScore = (TextView)findViewById(R.id.latest_score);
 		latestScore.setText(sm.getLatestScore());
 
+		// 閉じる。
+		sm.close();
+
 		// スタートボタン
 		TextView start = (TextView)findViewById(R.id.start);
 		start.setOnClickListener(this);

@@ -1,14 +1,10 @@
 package jp.kobayo.save100.game;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +19,7 @@ import jp.kobayo.save100.result.ResultActivity;
 import jp.kobayo.save100.top.TopActivity;
 
 
-public class GameActivity extends Activity implements OnClickListener,ActionBar.OnNavigationListener {
+public class GameActivity extends Activity implements OnClickListener {
 
 	// 一列にならぶ加算する数字の数。
 	private static final int numbersOneLine = 3;
@@ -102,31 +98,6 @@ public class GameActivity extends Activity implements OnClickListener,ActionBar.
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * Versionの差異を考慮して、どのContextを返すか変える。
-	 * @return Context: this or ThemedContext
-	 */
-	private Context getActionBarThemedContextCompat() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return getActionBar().getThemedContext();
-		} else {
-			return this;
-		}
-	}
-
-	/**
-	 * Itemを選択した際の処理。
-	 *
-	 * @param itemPosition
-	 * @param itemId
-	 * @return
-	 */
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-
-		Log.d("Navi",String.valueOf(itemPosition));
-		return false;
 	}
 
 

@@ -45,7 +45,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	}
 	/**
 	 * 初回insert
-	 * @param currentScore
+	 * @param currentScore : 取得したスコア
 	 */
 	public void insert(int currentScore) {
 
