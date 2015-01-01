@@ -350,6 +350,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	 */
 	private void fail() {
 		lock = true;
+		this.cdt.cancel();
 		fail.setVisibility(View.VISIBLE);
 	}
 

@@ -62,15 +62,15 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:layout_marginTop="30dp"
-                  android:layout_marginBottom="40dp"
+                  android:layout_marginTop="50dp"
+                  android:layout_marginBottom="25dp"
             >
         <TextView
                 android:id="@+id/start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
-                android:layout_marginBottom="55dp"
+                android:layout_marginBottom="70dp"
                 android:text="@string/start"
                 android:textColor="@color/green"
                 />
@@ -78,7 +78,6 @@
                   android:layout_height="wrap_content"
                   android:text="@string/explain"
                   android:textColor="@color/cyan"
-                  android:layout_marginLeft="5dp"
                   android:textSize="15sp"
 
                 />
