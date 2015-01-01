@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.MenuManager;
-import jp.kobayo.save100.game.ScoreManager;
 import jp.kobayo.save100.top.TopActivity;
 
 /**
@@ -16,7 +17,7 @@ import jp.kobayo.save100.top.TopActivity;
  *
  * Created by kobayo on 2014/12/30.
  */
-public class ResultActivity extends Activity {
+public class ResultActivity extends Activity implements View.OnClickListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -35,6 +36,28 @@ public class ResultActivity extends Activity {
 		// 取ったスコア
 		TextView score = (TextView)findViewById(R.id.score);
 		score.setText(currentScore);
+
+		// Topへ戻る画像
+		ImageView exit = (ImageView)findViewById(R.id.exit);
+		exit.setOnClickListener(this);
+
+	}
+
+	/**
+	 * クリック時処理
+	 * @param view : View
+	 */
+	public void onClick(View view) {
+
+		switch(view.getId()) {
+
+			case R.id.exit:
+				backTop();
+				break;
+			default:
+				break;
+
+		}
 
 	}
 

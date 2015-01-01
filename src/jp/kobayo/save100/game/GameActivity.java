@@ -142,11 +142,31 @@ public class GameActivity extends Activity implements OnClickListener {
 		GameUtils.setLines(numbersOneLine, mustSum, this);
 
 		// タイマー生成
-		this.cdt = CountDownTimerFactory.create(this, limitSecond);
+		this.cdt = setTimer(limitSecond);
 		this.cdt.start();
 
 		// ロックフラグ初期化
 		lock = false;
+	}
+
+	private CountDownTimer setTimer(int limitSecond) {
+
+		return new CountDownTimer(++limitSecond * 1000,1000){
+
+
+			// カウントダウン処理
+			public void onTick(long millisUntilFinished){
+				counter.setText(String.valueOf(millisUntilFinished/1000));
+			}
+
+			// カウントが0になった時の処理
+			public void onFinish(){
+
+				counter.setText("0");
+				fail();
+			}
+		};
+
 	}
 
 
@@ -193,7 +213,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			case R.id.fail:
 				// スコア保存処理をしてトップへ戻る
-				backTop();
+				backToEnd();
 				break;
 			default:
 				break;
@@ -331,9 +351,11 @@ public class GameActivity extends Activity implements OnClickListener {
 	private void fail() {
 		lock = true;
 		fail.setVisibility(View.VISIBLE);
-		backToEnd();
 	}
 
+	/**
+	 * 百万点超え時にコンプリートページへ。
+	 */
 	private void complete() {
 
 		// スコアを保存する処理
@@ -363,6 +385,9 @@ public class GameActivity extends Activity implements OnClickListener {
 		finish();
 	}
 
+	/**
+	 * 結果ページへいきます。
+	 */
 	private void backToEnd() {
 
 		// スコアを保存する処理
