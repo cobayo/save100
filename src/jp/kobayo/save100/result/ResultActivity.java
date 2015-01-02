@@ -7,7 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.MenuManager;
 import jp.kobayo.save100.top.TopActivity;
@@ -18,6 +22,10 @@ import jp.kobayo.save100.top.TopActivity;
  * Created by kobayo on 2014/12/30.
  */
 public class ResultActivity extends Activity implements View.OnClickListener{
+
+	// AdMob用
+	private AdView adView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -40,6 +48,21 @@ public class ResultActivity extends Activity implements View.OnClickListener{
 		// Topへ戻る画像
 		ImageView exit = (ImageView)findViewById(R.id.exit);
 		exit.setOnClickListener(this);
+
+		// adView を作成する
+		adView = new AdView(this);
+		adView.setAdUnitId("ca-app-pub-3092831641029940/5413389516");
+		adView.setAdSize(AdSize.BANNER);
+
+		// 中央上部表示
+		LinearLayout rootLayout = (LinearLayout) findViewById(R.id.ads);
+		rootLayout.addView(adView);
+
+		// 一般的なリクエストを行う
+		AdRequest adRequest = new AdRequest.Builder().build();
+
+		// 広告リクエストを行って adView を読み込む
+		adView.loadAd(adRequest);
 
 	}
 
@@ -90,6 +113,24 @@ public class ResultActivity extends Activity implements View.OnClickListener{
 		Intent intent = new Intent(this, TopActivity.class);
 		startActivity(intent);
 		finish();
+	}
+
+	@Override
+	public void onPause() {
+		adView.pause();
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		adView.resume();
+	}
+
+	@Override
+	public void onDestroy() {
+		adView.destroy();
+		super.onDestroy();
 	}
 
 

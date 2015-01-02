@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.google.android.gms.ads.AdView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.MenuManager;
 import jp.kobayo.save100.top.TopActivity;
@@ -18,6 +19,9 @@ import jp.kobayo.save100.top.TopActivity;
  * Created by kobayo on 2014/12/30.
  */
 public class CompleteActivity extends Activity implements View.OnClickListener{
+
+	private AdView adView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -90,5 +94,23 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 		Intent intent = new Intent(this, TopActivity.class);
 		startActivity(intent);
 		finish();
+	}
+
+	@Override
+	public void onPause() {
+		adView.pause();
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		adView.resume();
+	}
+
+	@Override
+	public void onDestroy() {
+		adView.destroy();
+		super.onDestroy();
 	}
 }
