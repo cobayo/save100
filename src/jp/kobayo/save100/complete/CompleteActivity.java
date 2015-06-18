@@ -3,12 +3,15 @@ package jp.kobayo.save100.complete;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.ads.AdView;
+import jp.gmotech.smaad.medium.rotation.SMRotationView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.MenuManager;
 import jp.kobayo.save100.top.TopActivity;
@@ -27,23 +30,31 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_m);
+		
+		try {
 
-		// 前画面からの値を受け取る
-		Intent intent = getIntent();
-		String currentScore = intent.getStringExtra("currentScore");
-		String clearCnt = intent.getStringExtra("clearCnt");
 
-		// 正解数
-		TextView cnt = (TextView)findViewById(R.id.clear_cnt);
-		cnt.setText(clearCnt);
 
-		// 取ったスコア
-		TextView score = (TextView)findViewById(R.id.score);
-		score.setText(currentScore);
 
-		// Topへ戻る画像
-		ImageView exit = (ImageView)findViewById(R.id.exit);
-		exit.setOnClickListener(this);
+			// 前画面からの値を受け取る
+			Intent intent = getIntent();
+			String currentScore = intent.getStringExtra("currentScore");
+			String clearCnt = intent.getStringExtra("clearCnt");
+
+			// 正解数
+			TextView cnt = (TextView) findViewById(R.id.clear_cnt);
+			cnt.setText(clearCnt);
+
+			// 取ったスコア
+			TextView score = (TextView) findViewById(R.id.score);
+			score.setText(currentScore);
+
+			// Topへ戻る画像
+			ImageView exit = (ImageView) findViewById(R.id.exit);
+			exit.setOnClickListener(this);
+		} catch (Exception e) {
+			Log.e("save100", e.getMessage());
+		}
 	}
 
 

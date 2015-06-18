@@ -3,14 +3,21 @@ package jp.kobayo.save100.game;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import jp.gmotech.smaad.medium.interstitial.SMInterstitialDialog;
+import jp.gmotech.smaad.medium.rotation.SMRotationView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.CommonUtils;
 import jp.kobayo.save100.common.MenuManager;
@@ -60,6 +67,9 @@ public class GameActivity extends Activity implements OnClickListener {
 	// 正解数
 	private int clearCnt = 0;
 
+	// インタースティシャル広告
+	private InterstitialAd interstitialAd;
+
 	/**
 	 * onCreate
 	 * Called when the activity is first created.
@@ -71,8 +81,43 @@ public class GameActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game_m);
 
+		SMInterstitialDialog.showAdDialog(GameActivity.this,"567862296");
+		
+		Intent intent = getIntent();
+		String action = intent.getAction();
+		
+		if (action == null) {
+			action = "null";
+		}
+		
+		if (action.equals("android.intent.action.VIEW")) {
+			Uri uri = intent.getData();
+			String url = uri.toString();
+			
+			if (url != null) {
+				Log.d("Game",url);
+			}
+			
+			String token = uri.getQueryParameter("token");
+			
+			if (token == null) {
+				token = "";
+			}
+			
+			Log.d("Game",token);
+		}
+		Log.d("Game",action);
+
+		// インタースティシャル広告(AdMob)
+		interstitialAd = new InterstitialAd(this);
+		interstitialAd.setAdUnitId("ca-app-pub-3092831641029940/4436183913");
+		// 広告リクエストを作成する。
+		AdRequest adRequest = new AdRequest.Builder().build();
+		interstitialAd.loadAd(adRequest);
+
 		// 初期化し、ゲームスタート
 		initGame();
+
 	}
 
 	@Override
@@ -206,11 +251,13 @@ public class GameActivity extends Activity implements OnClickListener {
 				result = check((TextView) view, Position.down);
 				break;
 
+			// SAVE!! 画像をタッチしたとき
 			case R.id.success:
 				// 次の問題へ。
 				next();
 				break;
 
+			// FAIL画像をタッチしたとき
 			case R.id.fail:
 				// スコア保存処理をしてトップへ戻る
 				backToEnd();
@@ -371,6 +418,8 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		startActivity(intent);
 		finish();
+		
+
 
 	}
 
@@ -379,6 +428,12 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// スコアを保存する処理
 		ScoreManager.create(this).save(currentScore);
+
+		// インタースティシャル表示
+		if (interstitialAd.isLoaded()) {
+			Log.i("Interstitial","Show");
+			interstitialAd.show();
+		}
 
 		// Topへ戻る
 		Intent intent = new Intent(this, TopActivity.class);
@@ -393,6 +448,14 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// スコアを保存する処理
 		ScoreManager.create(this).save(currentScore);
+
+		// インタースティシャル表示
+		if (interstitialAd.isLoaded()) {
+			Log.i("Interstitial","Show");
+			interstitialAd.show();
+		} else {
+			Log.i("Interstitial","Not ready loaded");
+		}
 
 		// Complete ページ
 		Intent intent = new Intent(this, ResultActivity.class);

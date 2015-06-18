@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
                 android:textColor="@color/green"
+                android:background="@color/white"
          />
     </LinearLayout>
     <FrameLayout android:layout_width="wrap_content"

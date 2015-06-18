@@ -2,6 +2,7 @@ package jp.kobayo.save100.game;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
@@ -108,7 +109,7 @@ public class GameUtils {
 
 	public static void setLines(int num,int mustSum ,Activity activity) {
 
-		List<int[]> lines = generateLines(num,mustSum);
+		List<int[]> lines = generateLines(num, mustSum);
 
 		int[] firstLine = lines.get(0);
 
@@ -200,10 +201,12 @@ public class GameUtils {
 			}
 
 			while (true) {
-				// 1 〜 (100 - num) までの整数をランダムで作る。
-				res[i] = rnd.nextInt(left - num) + 1;
 
-				if ((left - res[i]) > 0) {
+				// 1 〜 (残り値 + 1) までの整数をランダムで作る。
+				res[i] = rnd.nextInt(left) + 1;
+
+				// 残り値が残り項数より大きければOK (100 + 0 + 0 = 100? は認めない)
+				if ((left - res[i]) > (num - i - 1)) {
 					// 100まで残り
 					left = left - res[i];
 					break;

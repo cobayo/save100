@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import jp.gmotech.smaad.advertiser.SPSmaad;
+import jp.gmotech.smaad.medium.rotation.SMRotationView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.game.GameActivity;
 import jp.kobayo.save100.game.ScoreManager;
@@ -18,7 +20,7 @@ import jp.kobayo.save100.game.ScoreManager;
  *
  * Created by kobayo on 2014/12/30.
  */
-public class TopActivity extends Activity implements View.OnClickListener {
+public class TopActivity extends Activity {
 
 	// AdMob用
 	private AdView adView;
@@ -29,22 +31,9 @@ public class TopActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_m);
 
-		ScoreManager sm = ScoreManager.create(this);
-
-		// ハイスコアを表示
-		TextView highScore = (TextView)findViewById(R.id.high_score);
-		highScore.setText(sm.getHighScore());
-
-		// 最新スコアを表示
-		TextView latestScore = (TextView)findViewById(R.id.latest_score);
-		latestScore.setText(sm.getLatestScore());
-
-		// 閉じる。
-		sm.close();
-
-		// スタートボタン
-		TextView start = (TextView)findViewById(R.id.start);
-		start.setOnClickListener(this);
+		// 成果
+		SPSmaad spSmaad = new SPSmaad(this);
+		spSmaad.onCreate();
 
 		// adView を作成する
 		adView = new AdView(this);
@@ -61,20 +50,35 @@ public class TopActivity extends Activity implements View.OnClickListener {
 		// 広告リクエストを行って adView を読み込む
 		adView.loadAd(adRequest);
 
+		ScoreManager sm = ScoreManager.create(this);
+
+		// ハイスコアを表示
+		TextView highScore = (TextView)findViewById(R.id.high_score);
+		highScore.setText(sm.getHighScore());
+
+		// 最新スコアを表示
+		TextView latestScore = (TextView)findViewById(R.id.latest_score);
+		latestScore.setText(sm.getLatestScore());
+
+		// 閉じる。
+		sm.close();
+
+		// スタートボタン
+		TextView start = (TextView)findViewById(R.id.start);
+		start.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				// ゲーム画面へ遷移
+				Intent intent = new Intent(TopActivity.this, GameActivity.class);
+				startActivity(intent);
+
+			}
+		});
+
 	}
 
-	/**
-	 * スタートボタン押下時
-	 *
-	 * @param view
-	 */
-	public void onClick(View view) {
 
-		// ゲーム画面へ遷移
-		Intent intent = new Intent(this, GameActivity.class);
-		startActivity(intent);
-		finish();
-	}
 
 	@Override
 	public void onPause() {
