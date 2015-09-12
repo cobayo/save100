@@ -4,13 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import jp.gmotech.smaad.advertiser.SPSmaad;
-import jp.gmotech.smaad.medium.rotation.SMRotationView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.game.GameActivity;
 import jp.kobayo.save100.game.ScoreManager;
@@ -22,33 +16,12 @@ import jp.kobayo.save100.game.ScoreManager;
  */
 public class TopActivity extends Activity {
 
-	// AdMob用
-	private AdView adView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_m);
-
-		// 成果
-		SPSmaad spSmaad = new SPSmaad(this);
-		spSmaad.onCreate();
-
-		// adView を作成する
-		adView = new AdView(this);
-		adView.setAdUnitId("ca-app-pub-3092831641029940/5413389516");
-		adView.setAdSize(AdSize.BANNER);
-
-		// 中央上部表示
-		LinearLayout rootLayout = (LinearLayout) findViewById(R.id.ads);
-		rootLayout.addView(adView);
-
-		// 一般的なリクエストを行う
-		AdRequest adRequest = new AdRequest.Builder().build();
-
-		// 広告リクエストを行って adView を読み込む
-		adView.loadAd(adRequest);
 
 		ScoreManager sm = ScoreManager.create(this);
 
@@ -82,19 +55,17 @@ public class TopActivity extends Activity {
 
 	@Override
 	public void onPause() {
-		adView.pause();
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		adView.resume();
+
 	}
 
 	@Override
 	public void onDestroy() {
-		adView.destroy();
 		super.onDestroy();
 	}
 

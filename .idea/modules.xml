@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../luke_sdk_android/gmotech-smaad_sdk_android_util/gmotech-smaad_sdk_android_util.iml" filepath="$PROJECT_DIR$/../luke_sdk_android/gmotech-smaad_sdk_android_util/gmotech-smaad_sdk_android_util.iml" />
       <module fileurl="file://$USER_HOME$/android/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" filepath="$USER_HOME$/android/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/save100.iml" filepath="$PROJECT_DIR$/save100.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../luke_sdk_android/smaad_sdk_android_advertiser/smaad_sdk_android_advertiser.iml" filepath="$PROJECT_DIR$/../luke_sdk_android/smaad_sdk_android_advertiser/smaad_sdk_android_advertiser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../luke_sdk_android/smaad_sdk_android_medium/smaad_sdk_android_medium.iml" filepath="$PROJECT_DIR$/../luke_sdk_android/smaad_sdk_android_medium/smaad_sdk_android_medium.iml" />
     </modules>
   </component>
 </project>
-

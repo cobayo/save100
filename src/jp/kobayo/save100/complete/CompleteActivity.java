@@ -8,22 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.google.android.gms.ads.AdView;
-import jp.gmotech.smaad.medium.rotation.SMRotationView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.MenuManager;
 import jp.kobayo.save100.top.TopActivity;
 
 /**
- * 100万点達成時画面
+ * 100万点達成時画面.
  *
- * Created by kobayo on 2014/12/30.
+ * Created by Yosuke Kobayashi on 2014/12/30.
  */
-public class CompleteActivity extends Activity implements View.OnClickListener{
-
-	private AdView adView;
+public class CompleteActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,9 +27,6 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 		setContentView(R.layout.complete_m);
 		
 		try {
-
-
-
 
 			// 前画面からの値を受け取る
 			Intent intent = getIntent();
@@ -49,11 +41,28 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 			TextView score = (TextView) findViewById(R.id.score);
 			score.setText(currentScore);
 
-			// Topへ戻る画像
+			// Topへ戻る画ボタン
 			ImageView exit = (ImageView) findViewById(R.id.exit);
-			exit.setOnClickListener(this);
+			exit.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					switch(v.getId()) {
+
+						case R.id.exit:
+							backTop();
+							break;
+						default:
+							break;
+
+					}
+
+
+				}
+			});
+
 		} catch (Exception e) {
-			Log.e("save100", e.getMessage());
+			Log.e(getClass().getName(), e.getMessage());
 		}
 	}
 
@@ -80,24 +89,6 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * クリック時処理
-	 * @param view : View
-	 */
-	public void onClick(View view) {
-
-		switch(view.getId()) {
-
-			case R.id.exit:
-				backTop();
-				break;
-			default:
-				break;
-
-		}
-
-	}
-
 	// Topへ戻ります。
 	private void backTop() {
 
@@ -109,19 +100,19 @@ public class CompleteActivity extends Activity implements View.OnClickListener{
 
 	@Override
 	public void onPause() {
-		adView.pause();
+
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		adView.resume();
+
 	}
 
 	@Override
 	public void onDestroy() {
-		adView.destroy();
+
 		super.onDestroy();
 	}
 }

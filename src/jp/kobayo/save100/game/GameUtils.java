@@ -2,7 +2,6 @@ package jp.kobayo.save100.game;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import jp.kobayo.save100.R;
@@ -30,6 +29,7 @@ public class GameUtils {
 	 */
 	public static boolean calc(int mustSum, Activity activity) {
 
+		// 上段の数式
 		TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
 		int upNum1 = CommonUtils.parseInt(up1.getText().toString());
 
@@ -43,6 +43,7 @@ public class GameUtils {
 			return false;
 		}
 
+		// 下段の数式
 		TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
 		int downNum1 = CommonUtils.parseInt(down1.getText().toString());
 
@@ -60,9 +61,16 @@ public class GameUtils {
 	}
 
 
+	/**
+	 * 次の数式が出てきた際、カラーをリセットする。
+	 *
+	 * @param position Position
+	 * @param activity Activity
+	 */
 	public static void resetColor(Position position,Activity activity) {
 
 		if (Position.up.equals(position)) {
+			// 上段の数式
 
 			TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
 			up1.setTextColor(Color.WHITE);
@@ -74,6 +82,7 @@ public class GameUtils {
 			up3.setTextColor(Color.WHITE);
 
 		} else if (Position.down.equals(position)) {
+			// 下段の数式
 
 			TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
 			down1.setTextColor(Color.WHITE);
@@ -89,9 +98,9 @@ public class GameUtils {
 	}
 
 	/**
-	 * 正解時 =100? となっているところを=100にする。
-	 * @param mustSum
-	 * @param activity
+	 * 正解時処理 =100? となっているところを=100にする。
+	 * @param mustSum 合計値
+	 * @param activity Activity
 	 */
 	public static void setSum(int mustSum, Activity activity) {
 
@@ -106,13 +115,20 @@ public class GameUtils {
 	}
 
 
-
+	/**
+	 * 次の数式を生成する。
+	 *
+	 * @param num 項数
+	 * @param mustSum 合計値(この場合は100)
+	 * @param activity Activity
+	 */
 	public static void setLines(int num,int mustSum ,Activity activity) {
 
 		List<int[]> lines = generateLines(num, mustSum);
 
 		int[] firstLine = lines.get(0);
 
+		// 上段の数式
 		TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
 		up1.setText(String.valueOf(firstLine[0]));
 		up1.setOnClickListener((View.OnClickListener)activity);
@@ -131,6 +147,7 @@ public class GameUtils {
 
 		int[] secondLine = lines.get(1);
 
+		// 下段の数式
 		TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
 		down1.setText(String.valueOf(secondLine[0]));
 		down1.setOnClickListener((View.OnClickListener) activity);
@@ -161,15 +178,20 @@ public class GameUtils {
 		// 下段は上段と同じパターンではないかをチェックしながら生成
 		int[] secondLine;
 
-		CheckLoop:
+		boolean isOk = false;
 		while(true) {
 
 			secondLine = generateNumbers(num,mustSum);
 			for (int i : secondLine) {
 				// 一つでも違う値があればOK。
 				if (!Arrays.asList(firstLine).contains(i)) {
-					break CheckLoop;
+					isOk = true;
+					break;
 				}
+			}
+			// ラベルを使う方法もあるが、わかりにくくなるので、ここはフラグで処理する。
+			if (isOk) {
+				break;
 			}
 		}
 
@@ -220,10 +242,10 @@ public class GameUtils {
 
 
 	/**
-	 * 二つの数字の列の一文字を入れ替える
+	 * 二つの数字の列の一文字を入れ替える.
 	 *
-	 * @param firstLine
-	 * @param secondLine
+	 * @param firstLine 上段数列
+	 * @param secondLine 下段数列
 	 */
 	private static List<int[]> swap(int[] firstLine,int[] secondLine,int num) {
 

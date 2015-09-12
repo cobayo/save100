@@ -4,14 +4,15 @@ import android.view.Menu;
 import jp.kobayo.save100.R;
 
 /**
- * Created by kobayo on 2014/12/31.
+ * メニュー管理クラス.
+ *
+ * Created by Yosuke Kobayashi on 2014/12/31.
  */
 public class MenuManager {
 
 	public static final int MENU_TOP = 1;
 
 	public static final int MENU_END = 2;
-
 
 	public static void createMenu(Menu menu) {
 

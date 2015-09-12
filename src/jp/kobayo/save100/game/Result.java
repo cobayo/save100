@@ -1,7 +1,9 @@
 package jp.kobayo.save100.game;
 
 /**
- * Created by kobayo on 2014/12/27.
+ * ゲーム結果.
+ *
+ * Created by Yosuke Kobayashi on 2014/12/27.
  */
 public enum Result {
 

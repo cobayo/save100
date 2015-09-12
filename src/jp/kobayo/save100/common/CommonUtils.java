@@ -1,10 +1,13 @@
 package jp.kobayo.save100.common;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
- * 汎用ユーティリティです。
+ * 汎用ユーティリティ.
  *
  * Created by Yosuke Kobayashi on 2014/12/25.
  */
@@ -26,12 +29,12 @@ public class CommonUtils {
 	}
 
 	/**
-	 * 文字列連結
+	 * 文字列連結.
 	 *
 	 * @param strings : 文字列
 	 * @return 連結済み文字列
 	 */
-	public static String concat(String...strings) {
+	public static String concat(String... strings) {
 
 		if (strings == null) {
 			return "";
@@ -47,14 +50,23 @@ public class CommonUtils {
 	}
 
 	/**
-	 * DB用に日本時間の日付を文字列で取得
+	 * DB用に日本時間の日付を文字列で取得.
+	 *
 	 * @param date : Date
 	 * @return dateString : String
 	 */
 	public static String getDateTimeString(Date date) {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(date);
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.JAPAN);
+			return sdf.format(date);
+
+		} catch (Exception e) {
+			Log.e(CommonUtils.class.getName(),e.getMessage());
+			return "";
+		}
+
 	}
 
 }

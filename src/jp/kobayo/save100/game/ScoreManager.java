@@ -6,7 +6,9 @@ import android.util.Log;
 import jp.kobayo.save100.sqlite.MySQLiteOpenHelper;
 
 /**
- * Created by kobayo on 2014/12/28.
+ * 得点管理.
+ *
+ * Created by Yosuke Kobayashi on 2014/12/28.
  */
 public class ScoreManager {
 
@@ -24,18 +26,17 @@ public class ScoreManager {
 	/**
 	 * 残り時間などからスコアを算出します。
 	 *
-	 * @param restTime
-	 * @param mustSum
-	 * @return
+	 * @param restTime 残り時間
+	 * @param mustSum 合計値
 	 */
 	public static int calcScore(int restTime,int mustSum) {
 		return (restTime * mustSum) / 10;
 	}
 
 	/**
-	 * 保存
+	 * 保存.
 	 *
-	 * @param currentScore
+	 * @param currentScore 現在のスコア
 	 */
 	public void save(int currentScore) {
 
