@@ -7,53 +7,40 @@ import android.widget.TextView;
 import jp.kobayo.save100.R;
 import jp.kobayo.save100.common.CommonUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
- * Gameの処理に必要なユーティリティーです。
+ * Gameの処理に必要なユーティリティー.
  *
- * Created by kobayo on 2014/12/27.
+ * Created by Yosuke Kobayashi on 2014/12/27.
  */
 public class GameUtils {
 
+	// 上段の数式 左辺項
+	private static final int[] upIds = {R.id.up_num1,R.id.up_num2,R.id.up_num3};
+
+	// 下段の数式 左辺項
+	private static final int[] downIds = {R.id.down_num1,R.id.down_num2,R.id.down_num3};
 
 	/**
 	 * 現在の上段、下段のそれぞれの列の合計値を算出します。
 	 *
-	 * @param mustSum : 合計値 通常は100
-	 * @param activity : GameActivity
-	 * @return true : 正解
+	 * @param  mustSum  合計値 通常は100
+	 * @param  activity GameActivity
+	 * @return true 正解
 	 */
 	public static boolean calc(int mustSum, Activity activity) {
 
 		// 上段の数式
-		TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
-		int upNum1 = CommonUtils.parseInt(up1.getText().toString());
+		int upSum = getSum(activity, upIds);
 
-		TextView up2 = (TextView)activity.findViewById(R.id.up_num2);
-		int upNum2 = CommonUtils.parseInt(up2.getText().toString());
-
-		TextView up3 = (TextView)activity.findViewById(R.id.up_num3);
-		int upNum3 = CommonUtils.parseInt(up3.getText().toString());
-
-		if ((upNum1 + upNum2 + upNum3) != mustSum) {
+		if (upSum != mustSum) {
 			return false;
 		}
 
 		// 下段の数式
-		TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
-		int downNum1 = CommonUtils.parseInt(down1.getText().toString());
-
-		TextView down2 = (TextView)activity.findViewById(R.id.down_num2);
-		int downNum2 = CommonUtils.parseInt(down2.getText().toString());
-
-		TextView down3 = (TextView)activity.findViewById(R.id.down_num3);
-		int downNum3 = CommonUtils.parseInt(down3.getText().toString());
-
-		if ((downNum1 + downNum2 + downNum3) != mustSum) {
+		int downSum = getSum(activity,downIds);
+		if (downSum != mustSum) {
 			return false;
 		}
 
@@ -69,30 +56,22 @@ public class GameUtils {
 	 */
 	public static void resetColor(Position position,Activity activity) {
 
+		List<TextView> views = null;
 		if (Position.up.equals(position)) {
 			// 上段の数式
+			views = getTextViews(activity,upIds);
 
-			TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
-			up1.setTextColor(Color.WHITE);
-
-			TextView up2 = (TextView)activity.findViewById(R.id.up_num2);
-			up2.setTextColor(Color.WHITE);
-
-			TextView up3 = (TextView)activity.findViewById(R.id.up_num3);
-			up3.setTextColor(Color.WHITE);
 
 		} else if (Position.down.equals(position)) {
 			// 下段の数式
+			views = getTextViews(activity,downIds);
 
-			TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
-			down1.setTextColor(Color.WHITE);
+		}
 
-			TextView down2 = (TextView)activity.findViewById(R.id.down_num2);
-			down2.setTextColor(Color.WHITE);
-
-			TextView down3 = (TextView)activity.findViewById(R.id.down_num3);
-			down3.setTextColor(Color.WHITE);
-
+		if (views != null) {
+			for (TextView v : views) {
+				v.setTextColor(Color.WHITE);
+			}
 		}
 
 	}
@@ -128,19 +107,18 @@ public class GameUtils {
 
 		int[] firstLine = lines.get(0);
 
-		// 上段の数式
-		TextView up1 = (TextView)activity.findViewById(R.id.up_num1);
-		up1.setText(String.valueOf(firstLine[0]));
-		up1.setOnClickListener((View.OnClickListener)activity);
+		// 上段の数式(左辺)
+		List<TextView> upViews = getTextViews(activity,upIds);
 
-		TextView up2 = (TextView)activity.findViewById(R.id.up_num2);
-		up2.setText(String.valueOf(firstLine[1]));
-		up2.setOnClickListener((View.OnClickListener)activity);
+		int i = 0;
+		for (TextView v : upViews)  {
 
-		TextView up3 = (TextView)activity.findViewById(R.id.up_num3);
-		up3.setText(String.valueOf(firstLine[2]));
-		up3.setOnClickListener((View.OnClickListener)activity);
+			v.setText(String.valueOf(firstLine[i]));
+			v.setOnClickListener((View.OnClickListener) activity);
+			i++;
+		}
 
+		// 右辺項
 		TextView upSum = (TextView)activity.findViewById(R.id.up_sum);
 		upSum.setText(CommonUtils.concat(String.valueOf(mustSum),"?"));
 		upSum.setTextColor(Color.WHITE);
@@ -148,21 +126,66 @@ public class GameUtils {
 		int[] secondLine = lines.get(1);
 
 		// 下段の数式
-		TextView down1 = (TextView)activity.findViewById(R.id.down_num1);
-		down1.setText(String.valueOf(secondLine[0]));
-		down1.setOnClickListener((View.OnClickListener) activity);
+		List<TextView> downViews = getTextViews(activity,downIds);
 
-		TextView down2 = (TextView)activity.findViewById(R.id.down_num2);
-		down2.setText(String.valueOf(secondLine[1]));
-		down2.setOnClickListener((View.OnClickListener)activity);
+		int j = 0;
+		for (TextView v : downViews)  {
 
-		TextView down3 = (TextView)activity.findViewById(R.id.down_num3);
-		down3.setText(String.valueOf(secondLine[2]));
-		down3.setOnClickListener((View.OnClickListener)activity);
+			v.setText(String.valueOf(secondLine[j]));
+			v.setOnClickListener((View.OnClickListener) activity);
+			j++;
+		}
 
 		TextView downSum = (TextView)activity.findViewById(R.id.down_sum);
 		downSum.setText(CommonUtils.concat(String.valueOf(mustSum),"?"));
 		downSum.setTextColor(Color.WHITE);
+
+	}
+
+	/**
+	 * R.idからTextView を抽出し式の項目の合計を算出します。
+	 * @param activity Activity
+	 * @param ids R.id
+	 */
+	private static int getSum(Activity activity, int... ids) {
+
+		// 対象の項目を呼び出し
+		List<TextView> views = getTextViews(activity,ids);
+
+		int res = 0;
+		for (TextView v : views) {
+
+			res += CommonUtils.parseInt(v.getText().toString());
+		}
+
+		return res;
+
+	}
+
+	/**
+	 * 指定したIからTextViewを取得します数式の項目を全て取得する用.
+	 * @param activity Activity
+	 * @param ids R.id
+	 */
+	private static List<TextView> getTextViews(Activity activity, int... ids) {
+
+		if (ids == null || ids.length == 0) {
+			return Collections.emptyList();
+		}
+
+		try {
+
+			List<TextView> views = new ArrayList<TextView>();
+			for (int id : ids) {
+
+				TextView view = (TextView)activity.findViewById(id);
+				views.add(view);
+			}
+
+			return views;
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
 
 	}
 

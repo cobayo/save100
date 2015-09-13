@@ -66,7 +66,8 @@ public class GameActivity extends Activity implements OnClickListener {
 	private int clearCnt = 0;
 
 	/**
-	 * onCreate.
+	 * メイン処理.
+	 *
 	 * Called when the activity is first created.
 	 * @param savedInstanceState : Bundle
 	 */
@@ -177,9 +178,9 @@ public class GameActivity extends Activity implements OnClickListener {
 
 
 	/**
-	 * onClick.
+	 * クリック時処理.
 	 *
-	 * @param view : クリックしたView
+	 * @param view クリックしたView
 	 */
 	public void onClick(View view) {
 

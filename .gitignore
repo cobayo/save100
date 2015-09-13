@@ -3,3 +3,5 @@
 .idea_modules
 out
 out/*
+*.apk
+*.iml

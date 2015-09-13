@@ -44,12 +44,5 @@
                   android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
                   android:theme="@android:style/Theme.Translucent"
                 />
-
-        <activity android:name="jp.gmotech.smaad.medium.video.SMVideoAdFullScreen"
-                  android:configChanges="keyboardHidden|orientation|screenSize"
-                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <!-- サイトオープンリダイレクト方式 -->
-        <meta-data android:name="SMAAD_ACCOUNT_ID" android:value="172128732" />
-        <meta-data android:name="SMAAD_REDIRECT_DESTINATION" android:value="save100://top" />
     </application>
 </manifest>

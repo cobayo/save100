@@ -10,7 +10,7 @@ import jp.kobayo.save100.game.GameActivity;
 import jp.kobayo.save100.game.ScoreManager;
 
 /**
- * トップ画面
+ * トップ画面.
  *
  * Created by kobayo on 2014/12/30.
  */
@@ -50,8 +50,6 @@ public class TopActivity extends Activity {
 		});
 
 	}
-
-
 
 	@Override
 	public void onPause() {

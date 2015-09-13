@@ -13,7 +13,7 @@ import jp.kobayo.save100.common.MenuManager;
 import jp.kobayo.save100.top.TopActivity;
 
 /**
- * 結果画面
+ * 結果画面.
  *
  * Created by kobayo on 2014/12/30.
  */
